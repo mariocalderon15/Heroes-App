@@ -1,4 +1,3 @@
-import { CustomBreadcrums } from "@/components/custom/CustomBreadcrums";
 import { CustomMenu } from "@/components/custom/CustomMenu";
 import { Outlet } from "react-router";
 
@@ -8,7 +7,6 @@ export const HeroesLayouts = () => {
       <div className="max-w-7xl mx-auto p-6">
       <CustomMenu/>
       <div className="max-w-7xl mx-auto p-6">
-      <CustomBreadcrums items={[]}/>
       </div>
         <Outlet/>{/* Esto nos permite ver el contenido hijo, usando las clases css implementadas en el componente padre. */}
     </div>

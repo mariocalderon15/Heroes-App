@@ -7,9 +7,10 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { CustomJombotron } from "@/components/custom/CustomJombotron"
 import { HeroesStats } from "@/heroes/components/HeroesStats"
 import { HeroGrid } from "@/heroes/components/HeroGrid"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { CustomPagination } from "@/components/custom/CustomPagination"
-
+import { CustomBreadcrums } from "@/components/custom/CustomBreadcrums"
+import { getHeroesByPage } from "@/heroes/actions/get-heroes-by-page.actions"
 
 
 export const HomePages = () => {
@@ -19,6 +20,12 @@ export const HomePages = () => {
 'favorites'|
 'heroes'|
 'villains'>('all');
+
+useEffect(()=> {
+  getHeroesByPage().then((heroes) => {
+    console.log({heroes});
+  })
+})
   
   return (
     <>
@@ -26,6 +33,10 @@ export const HomePages = () => {
         <CustomJombotron 
         title="Superhero Universe" 
         description="Discover, explore, and manage your favorite superheroes and villains"/>
+
+        <CustomBreadcrums 
+        currentPage="Super Heroes"
+        breadcrumbs={[{label: 'Home', to: '/'}]}/>
 
         <HeroesStats/>
         
@@ -68,6 +79,7 @@ export const HomePages = () => {
             <h1>Villanos</h1>
           </TabsContent>
         </Tabs>
+      
 
         {/* Results info */}
         <div className="flex justify-between items-center mb-6">

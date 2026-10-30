@@ -1,4 +1,3 @@
-
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,52 +5,39 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+} from "@/components/ui/breadcrumb"
+import { Link } from "react-router";
 
-import { DotIcon } from "lucide-react";
-import React from "react";
-
-type BreadcrumbItemData = {
+interface Breadcrumbs {
   label: string;
-  href?: string;
-};
+  to: string;
+}
 
-type CustomBreadcrumbsProps = {
-  items: BreadcrumbItemData[];
-};
+interface Props {
+  currentPage: string,
+  breadcrumbs?: Breadcrumbs[];
+}
 
-export const CustomBreadcrums = ({
-  items,
-}: CustomBreadcrumbsProps) => {
+export const CustomBreadcrums = ({ currentPage, breadcrumbs = [] }: Props) => {
+
   return (
-    <Breadcrumb>
-      <BreadcrumbList>
-        {items.map((item, index) => {
-          const isLast = index === items.length - 1;
-
-          return (
-            <React.Fragment key={item.label}>
-              <BreadcrumbItem>
-                {isLast || !item.href ? (
-                  <BreadcrumbPage>
-                    {item.label}
-                  </BreadcrumbPage>
-                ) : (
-                  <BreadcrumbLink render={<a href={item.href} />}>
-                    {item.label}
-                  </BreadcrumbLink>
-                )}
-              </BreadcrumbItem>
-
-              {!isLast && (
-                <BreadcrumbSeparator>
-                  <DotIcon />
-                </BreadcrumbSeparator>
-              )}
-            </React.Fragment>
-          );
-        })}
-      </BreadcrumbList>
+    <Breadcrumb className="my-5">
+         {
+          breadcrumbs.map(crumb => (    
+            <BreadcrumbList>
+            <BreadcrumbItem>
+             <BreadcrumbLink>
+             <Link to={crumb.to}>{crumb.label}</Link>
+             </BreadcrumbLink>
+             <BreadcrumbSeparator/>
+             <BreadcrumbPage>{currentPage}</BreadcrumbPage>
+            </BreadcrumbItem>
+            </BreadcrumbList>
+            
+          ))
+        }
     </Breadcrumb>
+
   );
 };
+

@@ -77,3 +77,7 @@ export default defineConfig([
 
 ```
 # Heroes-App
+
+# Levantar desarrollo de backend: 
+1. npm i
+2. npm run start:dev

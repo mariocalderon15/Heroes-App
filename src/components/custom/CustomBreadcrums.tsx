@@ -7,6 +7,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { Link } from "react-router";
+import { Fragment } from "react";
 
 interface Breadcrumbs {
   label: string;
@@ -22,20 +23,23 @@ export const CustomBreadcrums = ({ currentPage, breadcrumbs = [] }: Props) => {
 
   return (
     <Breadcrumb className="my-5">
-         {
-          breadcrumbs.map(crumb => (    
-            <BreadcrumbList>
+      <BreadcrumbList>
+        {breadcrumbs.map((crumb) => (
+          <Fragment key={crumb.to}>
             <BreadcrumbItem>
-             <BreadcrumbLink>
-             <Link to={crumb.to}>{crumb.label}</Link>
-             </BreadcrumbLink>
-             <BreadcrumbSeparator/>
-             <BreadcrumbPage>{currentPage}</BreadcrumbPage>
+                <Link 
+                className="transition-colors hover:text-foreground"
+                to={crumb.to}>{crumb.label}</Link>
             </BreadcrumbItem>
-            </BreadcrumbList>
-            
-          ))
-        }
+            <BreadcrumbSeparator />
+          </Fragment>
+        ))}
+        <BreadcrumbItem>
+          <BreadcrumbPage>
+            {currentPage}
+          </BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
     </Breadcrumb>
 
   );

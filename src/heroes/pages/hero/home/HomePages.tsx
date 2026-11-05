@@ -7,10 +7,10 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { CustomJombotron } from "@/components/custom/CustomJombotron"
 import { HeroesStats } from "@/heroes/components/HeroesStats"
 import { HeroGrid } from "@/heroes/components/HeroGrid"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { CustomPagination } from "@/components/custom/CustomPagination"
 import { CustomBreadcrums } from "@/components/custom/CustomBreadcrums"
-import { getHeroesByPage } from "@/heroes/actions/get-heroes-by-page.actions"
+
 
 
 export const HomePages = () => {
@@ -21,12 +21,6 @@ export const HomePages = () => {
 'heroes'|
 'villains'>('all');
 
-useEffect(()=> {
-  getHeroesByPage().then((heroes) => {
-    console.log({heroes});
-  })
-})
-  
   return (
     <>
         <>
@@ -38,6 +32,7 @@ useEffect(()=> {
         currentPage="Super Heroes"
         breadcrumbs={[{label: 'Home', to: '/'}]}/>
 
+         {/*  */}
         <HeroesStats/>
         
        
@@ -92,6 +87,7 @@ useEffect(()=> {
           </div>
         </div>
 
+         {/* Heroes Cards */}
         <HeroGrid/>
 
         {/* Pagination */}

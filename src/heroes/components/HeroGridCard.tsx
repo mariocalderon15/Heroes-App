@@ -3,45 +3,53 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Brain, Eye, Gauge, Heart, Shield, Zap } from "lucide-react";
-import React, { useState } from "react";
+import type { Hero } from "@/types/heroes.interface";
 
-interface Props {
-    description: '',
-    universe: 'DC' | 'Marvel',
-
+interface HeroCardProps {
+    hero: Hero;
 }
 
-
-export const HeroGridCard = () => {
-
-    const [isActive, setActive] = useState(true);
+export const HeroGridCard = ({ hero }: HeroCardProps) => {
 
 
     return (
         <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-linear-to-br from-white to-gray-50">
-            <div className="relative h-64 overflow-hidden">
+            <div className="relative h-80 w-full overflow-hidden">
 
 
                 {/* Status indicator */}
                 <div className="absolute top-3 left-3 flex items-center gap-2">
-                    <div className={`w-3 h-3 rounded-full`} />
-                    <div className={isActive ? "bg-green-500" : "bg-gray-400"}/>
-                    <Badge variant="secondary" className="text-xs bg-white/90 text-gray-700">
-                       Active
+                    <div className={`w-3 h-3 rounded-full ${hero.status === 'Active' ? "bg-green-500" : "bg-gray-400"}`} />
+                    <Badge
+                        variant="secondary"
+                        className="text-md bg-white/90 text-gray-700">
+                        {hero.status}
                     </Badge>
                 </div>
 
                 {/* Universe badge */}
-                <Badge className="absolute top-3 right-3 text-xs bg-blue-600 text-white">DC</Badge>
+                <Badge
+                    className={`absolute top-3 right-3 text-md text-white ${hero.universe === 'DC' ? 'bg-blue-600 text-sm' :
+                        'bg-red-500 text-sm'}`}>{hero.universe}</Badge>
+                
+                <img
+                src={hero.image}
+                alt={hero.name}
+                className="w-full h-full object-center scale-110 group-hover:scale-100 transition-transform duration-500 ease-in-out">
+                </img>
 
                 {/* Favorite button */}
-                <Button size="sm" variant="ghost" className="absolute bottom-3 right-3 bg-white/90 hover:bg-white">
-                    <Heart className="h-4 w-4 fill-red-500 text-red-500" />
+                <Button
+                    size="lg"
+                    variant="ghost"
+                    className="absolute bottom-3 right-3 bg-white/90 hover:bg-white">
+                    <Heart
+                        className="h-4 w-4 fill-red-500 text-red-500" />
                 </Button>
 
                 {/* View details button */}
                 <Button
-                    size="sm"
+                    size="lg"
                     variant="ghost"
                     className="absolute bottom-3 left-3 bg-white/90 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity"
                 >
@@ -52,19 +60,24 @@ export const HeroGridCard = () => {
             <CardHeader className="pb-3">
                 <div className="flex justify-between items-start">
                     <div className="space-y-1">
-                        <h3 className="font-bold text-lg leading-tight">Superman</h3>
-                        <p className="text-sm text-gray-600">Clark Kent</p>
+                        <h3 className="font-bold text-lg leading-tight">{hero.alias}</h3>
+                        <p className="text-lg text-gray-600">{hero.name}</p>
                     </div>
-                    <Badge className="text-xs bg-green-100 text-green-800 border-green-200">Hero</Badge>
+                    <Badge
+                        className={`${hero.category === 'Hero' ? 'text-sm bg-green-100 text-green-800 border-green-200' :
+                            'bg-orange-100 text-orange-800 border-orange-200'
+                            }`}>{hero.category}</Badge>
                 </div>
-                <Badge variant="outline" className="w-fit text-xs">
-                    Justice League
+                <Badge
+                    variant="outline"
+                    className="w-fit text-sm border-gray-200 bg-gray-100">{hero.team}
+
                 </Badge>
             </CardHeader>
 
             <CardContent className="space-y-4">
                 <p className="text-sm text-gray-600 line-clamp-2">
-                    The Last Son of Krypton, protector of Earth and symbol of hope for all humanity.
+                    {hero.description}
                 </p>
 
                 {/* Stats */}
@@ -72,28 +85,28 @@ export const HeroGridCard = () => {
                     <div className="space-y-1">
                         <div className="flex items-center gap-1">
                             <Zap className="h-3 w-3 text-orange-500" />
-                            <span className="text-xs font-medium">Strength</span>
+                            <span className="text-xs font-medium">{hero.strength}</span>
                         </div>
                         <Progress value={100} className="h-2.5 " activeColor='bg-orange-500' />
                     </div>
                     <div className="space-y-1">
                         <div className="flex items-center gap-1">
                             <Brain className="h-3 w-3 text-blue-500" />
-                            <span className="text-xs font-medium">Intelligence</span>
+                            <span className="text-xs font-medium">{hero.intelligence}</span>
                         </div>
                         <Progress value={80} className="h-2" activeColor='bg-blue-500' />
                     </div>
                     <div className="space-y-1">
                         <div className="flex items-center gap-1">
                             <Gauge className="h-3 w-3 text-green-500" />
-                            <span className="text-xs font-medium">Speed</span>
+                            <span className="text-xs font-medium">{hero.speed}</span>
                         </div>
-                        <Progress value={90} className="h-2" activeColor="bg-green-500"/>
+                        <Progress value={90} className="h-2" activeColor="bg-green-500" />
                     </div>
                     <div className="space-y-1">
                         <div className="flex items-center gap-1">
                             <Shield className="h-3 w-3 textbg-green-500" />
-                            <span className="text-xs font-medium">Durability</span>
+                            <span className="text-xs font-medium">{hero.durability}</span>
                         </div>
                         <Progress value={100} className="h-2" activeColor="bg-purple-500" />
                     </div>
@@ -101,23 +114,25 @@ export const HeroGridCard = () => {
 
                 {/* Powers */}
                 <div className="space-y-2">
-                    <h4 className="font-medium text-sm">Powers:</h4>
+                    <h4 className="font-medium text-sm">Heroes Powers:</h4>
                     <div className="flex flex-wrap gap-1">
                         <Badge variant="outline" className="text-xs">
-                            Super Strength
+                            {hero.powers[0]}
                         </Badge>
                         <Badge variant="outline" className="text-xs">
-                            Flight
+                            {hero.powers[1]}
                         </Badge>
-                        <Badge variant="outline" className="text-xs bg-gray-100">
+                        <Badge
+                            variant="outline"
+                            className="text-xs bg-gray-100">
                             +4 more
                         </Badge>
                     </div>
                 </div>
 
-                <div className="text-xs text-gray-500 pt-2 border-t">First appeared: 1938</div>
+                <div className="text-xs text-gray-500 pt-2 border-t">First appeared: {hero.firstAppearance}</div>
             </CardContent>
-        </Card>
+        </Card >
 
     );
 };
